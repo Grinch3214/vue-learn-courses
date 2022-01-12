@@ -1,62 +1,73 @@
 <template>
   <div id="app" class="app">
-    <child-component />
-    <!-- <admin-view /> -->
-    <keep-alive>
-      <component :is="componentName" />
-    </keep-alive>
+    <h1>APP</h1>
 
-    <button @click="admin = true">Admin</button>
-    <button @click="admin = false">User</button>
-    <br />
-    <pop-up v-if="show" @closePopUp="closePopUp" />
-    <p v-once>Vue once: {{ message.length }}</p>
-    <p>Vue: {{ message.length }}</p>
-    <button @click="show = true">Show</button>
+    <UserCard
+      v-for="item in users"
+      :key="item.id"
+      :user="item"
+      isAdmin
+      :startValue="10"
+    />
 
-    <div v-html="string"></div>
+    <ChildComponent
+      :users="users"
+    />
+
   </div>
 </template>
- 
+
 <script>
-import AdminView from "./components/AdminView.vue";
-// import UserView from "./components/UserView.vue";
+import ChildComponent from './components/ChildComponent.vue';
+import UserCard from './components/UserCard.vue'
+
 
 export default {
+
   name: "App",
   components: {
-    AdminView,
-    UserView: () => import("./components/UserView.vue"),
-    PopUp: () => import("./components/PopUp.vue"),
+    // 'UserCard': () => import('./components/UserCard.vue'),
+    UserCard,
+    ChildComponent,
   },
   data: () => ({
-    admin: true,
-    show: false,
-    message: "Vue once lorem insput...",
-    string: "<button style='color: red;'>String btn</button>",
-  }),
-  computed: {
-    componentName() {
-      if (this.admin) {
-        return "AdminView";
+    message: 'Hello',
+    user: {
+      name: 'Alex',
+      job: 'Frontend developer'
+    },
+    users: [
+      {
+        id: 1,
+        name: 'Leanne',
+        surname: 'Graham',
+        email: 'Sincere@april.biz'
+      },
+      {
+        id: 2,
+        name: 'Ervin',
+        surname: 'Howell',
+        email: 'Shanna@melissa.tv'
+      },
+      {
+        id: 3,
+        name: 'Clementine',
+        surname: 'Bauch',
+        email: 'Nathan@yesenia.net'
       }
-      return "UserView";
-    },
-  },
-  methods: {
-    closePopUp(event) {
-      this.show = false;
-      console.log(event);
-    },
-  },
+    ],
+  }),
 };
 </script>
 
 <style>
 * {
   margin: 0;
-  padding: 15px;
+  padding: 0;
   font-size: 20px;
+}
+.app {
+  text-align: center;
 }
 .ml-2 {
   margin-left: 5px;
