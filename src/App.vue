@@ -1,37 +1,24 @@
 <template>
   <div id="app" class="app">
     <h1>APP</h1>
-
-    <UserCard
-      v-for="item in users"
-      :key="item.id"
-      :user="item"
-      isAdmin
-      :startValue="10"
-    />
-
-    <ChildComponent
-      :users="users"
-    />
+    <button @click="show = true">Click me bro</button>
+    <PopUp v-if="show" @closePopUp="closePopUp" />
 
   </div>
 </template>
 
 <script>
-import ChildComponent from './components/ChildComponent.vue';
-import UserCard from './components/UserCard.vue'
-
+import PopUp from './components/PopUp.vue'
 
 export default {
 
   name: "App",
   components: {
-    // 'UserCard': () => import('./components/UserCard.vue'),
-    UserCard,
-    ChildComponent,
+    PopUp
   },
   data: () => ({
     message: 'Hello',
+    show: false,
     user: {
       name: 'Alex',
       job: 'Frontend developer'
@@ -57,6 +44,12 @@ export default {
       }
     ],
   }),
+  methods: {
+    closePopUp(event) {
+      this.show = false;
+      console.log(event);
+    },
+  },
 };
 </script>
 

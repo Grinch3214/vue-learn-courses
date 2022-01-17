@@ -1,10 +1,12 @@
 <template>
   <div>
       <h1>Child component</h1>
-      <!-- <p>{{ filter[0].name }}</p> -->
-      <!-- <p>{{ myFirstProp }}</p>
-      <p>{{ mySecondProp }}</p>
-      <p v-if="userInfo">{{ userInfo.name }}</p> -->
+      <input 
+        v-model="name"
+        type="text"
+        :placeholder="placeholder"
+        @change="$emit('update:userName', name)"
+      />
   </div>
 </template>
  
@@ -14,20 +16,21 @@ export default {
   name: "ChildComponent",
   components: {
   },
-  // props: ['myFirstProp', 'mySecondProp', 'userInfo'],
   props: {
-    users: {
-      type: [Array, Object, String],
-      default: () => [1, 2, 3],
+    userName: {
+      type: String,
+      default: '',
     },
   },
   data: () => ({
+    placeholder: 'Edit your name',
+    name: ''
   }),
   computed: {
-    filter() {
-      return this.users.filter(user => user.id === 1)
-    }
   },
+  created() {
+    this.name = this.userName
+  }
 };
 </script>
 
