@@ -4,8 +4,16 @@
       <div>
         <button @click="$emit('closePopUp', product)" class="btn">X</button>
       </div>
-      {{ message }}
-      <input type="text" v-model="product.name" />
+      <p>
+        <slot name="header"></slot>
+      </p>
+      <main>
+        <slot></slot>
+      </main>
+      <footer>
+        <slot name="footer"></slot>
+      </footer>
+
     </div>
   </div>
 </template>
@@ -19,33 +27,33 @@ export default {
       name: "",
       id: 1,
     },
-    interval: setInterval(() => console.log('Intervl '), 3 * 1000)
+    // interval: setInterval(() => console.log('Intervl '), 3 * 1000)
   }),
-  beforeCreate() {
-    console.log('beforeCreate ', this.message)
-  },
-  created() {
-    console.log('created ', this.message)
-  },
-  beforeMount() {
-    console.log('beforeMount ', this.message)
-  },
-  mounted() {
-    console.log('mounted ', this.message)
-  },
-  beforeUpdate() {
-    console.log('beforeUpdate ', this.message)
-  },
-  updated() {
-    console.log('updated ', this.message)
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy ', this.message)
-    clearInterval(this.interval)
-  },
-  destroyed() {
-    console.log('destroy ', this.message)
-  },
+  // beforeCreate() {
+  //   console.log('beforeCreate ', this.message)
+  // },
+  // created() {
+  //   console.log('created ', this.message)
+  // },
+  // beforeMount() {
+  //   console.log('beforeMount ', this.message)
+  // },
+  // mounted() {
+  //   console.log('mounted ', this.message)
+  // },
+  // beforeUpdate() {
+  //   console.log('beforeUpdate ', this.message)
+  // },
+  // updated() {
+  //   console.log('updated ', this.message)
+  // },
+  // beforeDestroy() {
+  //   console.log('beforeDestroy ', this.message)
+  //   clearInterval(this.interval)
+  // },
+  // destroyed() {
+  //   console.log('destroy ', this.message)
+  // },
 };
 </script>
 
@@ -63,6 +71,7 @@ export default {
   position: absolute;
   z-index: 35;
   overflow: auto;
+  padding: 30px;
   background: #fff;
   top: 50%;
   left: 50%;
