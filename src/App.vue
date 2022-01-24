@@ -1,102 +1,58 @@
 <template>
   <div id="app" class="app">
-    <h1>APP</h1>
-    <button @click="show = true">Click me bro</button>
-    <PopUp v-if="show" @closePopUp="closePopUp" >
-      <!-- <p>{{user.name}}</p> -->
-      <template v-slot:header>
-        <p>Header</p>
-      </template>
-      <template>
-        <p>Body</p>
-      </template>
-      <template v-slot:footer>
-        Footer
-      </template>
-    </PopUp>
-    <!-- <p v-html="htmlServer" /> -->
-
-    <!-- <input :value="commentText" @input="onInput($event)" type="text">
-    <button @click="commentText = ''">Clear</button> -->
-
-
-
+    <!-- <div>{{ activePost }}</div> -->
+    <button style="cursor: pointer;" @click="getAllUsers()">Show all users</button>
+    <div v-for="user in users" :key="user.id">
+      {{ user.id }}: {{ user.login }}
+    </div>
+    <div>
+      <p>{{ activeUser.id }}: {{ activeUser.login }}</p>
+      <p>{{ activeUser.bio }}</p>
+      <p>{{ activeUser.location }}</p>
+      </div>
   </div>
 </template>
 
 <script>
-import PopUp from './components/PopUp.vue'
-import myMixin from './mixins/index'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
 
   name: "App",
-  mixins: [myMixin],
   components: {
-    PopUp,
   },
   data: () => ({
-    message: 'Hello',
-    show: false,
-    user: {
-      name: 'Alex',
-      job: 'Frontend developer'
-    },
-    posts: [
-      {
-        id: 1,
-        title: 'Hello',
-        body: 'Lorem inpus'
-      }
-    ],
-    commentText: '',
-    // htmlServer: ''
   }),
-  // watch: {
-  //   commentText(newVal, oldVal) {
-  //     console.log('watch: ', newVal, oldVal)
-  //   },
-  //   user: {
-  //     deep: true,
-  //     immediate: true,
-  //     handler() {
-  //       console.log(this.user.name)
-  //     }
-  //   },
-  // },
+  computed: {
+    ...mapState( ['admin', 'users', 'activeUser'] ),
+    ...mapGetters(['activePost']),
+    // activePost() {
+    //   return this.$store.getters.activePost
+    // },
+  },
   methods: {
-    onInput(event) {
-      this.commentText = event.target.value
-      console.log(this.commentText)
-    },
-
-    closePopUp(event) {
-      this.show = false;
-      console.log(event);
-    },
-    addNewProperty() {
-      // this.$set(this.user, 'age', 18)
-      // this.user = Object.assign({}, this.user, {
-      //   age: 18,
-      //   hobby: 'dev'
+    ...mapMutations(['setActivePostId']),
+    ...mapActions(['getMaxim']),
+    setNewActivePostId() {
+      this.setActivePostId({
+        id: 1,
+      })
+      // this.$store.commit({
+      //   type: 'setActivePostId',
+      //   id: 1
       // })
-
-      // this.$set(this.posts, 1, {id: 2, title: 'Nothello', body: 'text this'})
-
-      // this.posts.splice(1, 0, {id: 2, title: 'Nothello', body: 'text this'})
-    }
+    },
+    getAllUsers() {
+      // this.getUsers()
+      this.$store.dispatch('getUsers')
+    },
   },
   created() {
-    console.log('App.vue')
+    console.log(this.admin)
+    this.setNewActivePostId()
+    this.getMaxim()
+    // this.getAllUsers()
   },
-  async mounted() {
-    // this.addNewProperty()
-
-    // this.htmlServer = '<span style="color:red;">Текст с сервера</span>'
-    // await this.$nextTick()
-    // console.log(document.getElementById('app').offsetHeight)
-
-  }
 };
 </script>
 
