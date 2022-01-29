@@ -1,20 +1,31 @@
 <template>
   <div id="app" class="app">
-    <!-- <div>{{ activePost }}</div> -->
-    <button style="cursor: pointer;" @click="getAllUsers()">Show all users</button>
-    <div v-for="user in users" :key="user.id">
-      {{ user.id }}: {{ user.login }}
-    </div>
-    <div>
-      <p>{{ activeUser.id }}: {{ activeUser.login }}</p>
-      <p>{{ activeUser.bio }}</p>
-      <p>{{ activeUser.location }}</p>
-      </div>
+    <header>
+      Header App component
+
+      <button 
+        @click="$router.push({
+          name: 'articlePage',
+          params: {
+            userId: 12,
+            id: 4
+          },
+          query: {
+            plan: 'private'
+          }
+        })"
+        style="margin-left: auto; cursor: pointer; display: block;"
+      >
+        POST
+      </button>
+
+    </header>
+
+  <router-view />
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
 
@@ -23,36 +34,18 @@ export default {
   },
   data: () => ({
   }),
-  computed: {
-    ...mapState( ['admin', 'users', 'activeUser'] ),
-    ...mapGetters(['activePost']),
-    // activePost() {
-    //   return this.$store.getters.activePost
-    // },
+  created() {
+    console.log('AppVue-router:  ', this.$router)
+    console.log('AppVue-route:  ',this.$route)
   },
   methods: {
-    ...mapMutations(['setActivePostId']),
-    ...mapActions(['getMaxim']),
-    setNewActivePostId() {
-      this.setActivePostId({
-        id: 1,
-      })
-      // this.$store.commit({
-      //   type: 'setActivePostId',
-      //   id: 1
-      // })
-    },
-    getAllUsers() {
-      // this.getUsers()
-      this.$store.dispatch('getUsers')
-    },
-  },
-  created() {
-    console.log(this.admin)
-    this.setNewActivePostId()
-    this.getMaxim()
-    // this.getAllUsers()
-  },
+    // toAboutMe() {
+    //   console.log(2 + 5)
+    //   this.$router.push({
+    //     name: 'AboutMePage'
+    //   })
+    // }
+  }
 };
 </script>
 
